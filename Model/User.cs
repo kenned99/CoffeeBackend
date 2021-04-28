@@ -23,6 +23,12 @@ namespace Model
         [MaxLength(84)]
         public string Password { get; set; }
 
+        public virtual ICollection<Friend> Friends { get; set; }
+    }
 
+    public class ProductImage
+    {
+        public int ProductId { get; set; }
+        public byte[] Image { get; set; }
     }
 }
