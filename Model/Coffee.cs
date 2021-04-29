@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Coffee:IdRec
+    public class Coffee:IdRec 
     {
         [MaxLength(50)]
         public string Name { get; set; }
