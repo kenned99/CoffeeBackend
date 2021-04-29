@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    class CheckIn
+    public class CheckIn
     {
         public int CoffeeId { get; set; }
         [MaxLength(200)]

@@ -10,8 +10,10 @@ namespace DataAccess
 
         }
 
-        public DbSet<Coffee> UserTokens { get; set; }
+        public DbSet<Coffee> Coffee { get; set; }
         public DbSet<User> Users { get; set; }
-        
+        public DbSet<CheckIn> CheckIn { get; set; }
+        public DbSet<Friend> Friends { get; set; }
+
     }
 }

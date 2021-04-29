@@ -24,6 +24,8 @@ namespace Model
         public string Password { get; set; }
 
         public virtual ICollection<Friend> Friends { get; set; }
+
+        public virtual ICollection<Coffee> Coffee { get; set; }
     }
 
     public class ProductImage
