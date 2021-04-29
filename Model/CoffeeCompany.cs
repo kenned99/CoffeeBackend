@@ -14,8 +14,7 @@ namespace Model
         [MaxLength(200)]
         public string Address { get; set; }
 
-        public Coffee Coffee { get; set; }
-
+        public  virtual ICollection<Coffee> Coffee { get; set; }
 
     }
 }

@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class CheckIn
+    public class CheckIn:IdRec
     {
-        public int CoffeeId { get; set; }
         [MaxLength(200)]
         public string Comment { get; set; }
         [MaxLength(50)]
