@@ -7,32 +7,25 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Coffee:IdRec
+    class CheckIn
     {
+        public int CoffeeId { get; set; }
+        [MaxLength(200)]
+        public string Comment { get; set; }
         [MaxLength(50)]
         public string Name { get; set; }
         [MaxLength(5)]
-        public double Rating { get; set; }
+        public string Rating { get; set; }
+        [MaxLength(200)]
+        public string Location { get; set; }
+        [MaxLength(100)]
         public string Company { get; set; }
         public DateTime Date { get; set; }
+
     }
-   public enum Genre
+    public enum ServingStyle
     {
         Arabica,
         Americano,
-        Affogato,
-        Black,
-        Cappuccino,
-        Cortado,
-        Doppio,
-        Espresso,
-        Irish,
-        Lungo,
-        Latte,
-        Macchiato,
-        Mocha,
-        Robusta,
-        RedEye,
     }
-
 }
