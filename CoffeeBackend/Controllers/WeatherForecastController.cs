@@ -20,9 +20,10 @@ namespace CoffeeBackend.Controllers
 
         private readonly ILogger<CoffeeController> _logger;
 
-        public CoffeeController(ILogger<CoffeeController> logger)
+        public CoffeeController(ILogger<CoffeeController> logger, APIDbContext context)
         {
             _logger = logger;
+            this.context = context;
         }
 
         [HttpGet]
