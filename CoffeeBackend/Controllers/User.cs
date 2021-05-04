@@ -1,5 +1,6 @@
 ﻿using BusinessLogic;
 using DataAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -41,6 +42,7 @@ namespace CoffeeBackend.Controllers
             newCoffee.InsertUser(user);
             return user;
         }
+        [Authorize]
         [HttpGet]
         public List<User> Get()
         {
@@ -48,7 +50,6 @@ namespace CoffeeBackend.Controllers
 
             return newCoffee.GetUsers();
         }
-
         [HttpGet("{id}")]
         public User Get(string id)
         {
@@ -61,7 +62,7 @@ namespace CoffeeBackend.Controllers
             BLCoffee newCoffee = new BLCoffee(context);
             return newCoffee.GetUser(email, password);
         }
-
-
+     
+  
     }
 }
