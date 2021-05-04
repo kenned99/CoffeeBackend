@@ -13,9 +13,9 @@ namespace Model
         public string Name { get; set; }
         [MaxLength(5)]
         public double Rating { get; set; }
-        public CoffeeCompany Company { get; set; }
         public DateTime Date { get; set; }
         public Genre Genre { get; set; }
+        public virtual ICollection<CoffeeCompany> CoffeeCompanies { get; set; }
     }
    public enum Genre
     {

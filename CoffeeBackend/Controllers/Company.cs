@@ -1,5 +1,6 @@
 ﻿using BusinessLogic;
 using DataAccess;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Model;
@@ -10,22 +11,22 @@ using System.Threading.Tasks;
 
 namespace CoffeeBackend.Controllers
 {
-
+    [Route("Company")]
     [ApiController]
-    [Route("[controller]")]
-    public class CoffeeController : ControllerBase
+    public class CompanyController : ControllerBase
     {
+
+
         private readonly APIDbContext context;
 
 
-        private readonly ILogger<CoffeeController> _logger;
+        private readonly ILogger<CompanyController> _logger;
 
-        public CoffeeController(ILogger<CoffeeController> logger, APIDbContext context)
+        public CompanyController(ILogger<CompanyController> logger, APIDbContext context)
         {
             _logger = logger;
             this.context = context;
         }
-
 
         [HttpPost]
         public CoffeeCompany Post(String CompName, String Address)
@@ -37,7 +38,19 @@ namespace CoffeeBackend.Controllers
             newCoffee.InsertCompany(Company);
             return Company;
         }
-         
+        [HttpGet]
+        public List<CoffeeCompany> Get()
+        {
+            BLCoffee newCoffee = new BLCoffee(context);
 
+            return newCoffee.GetCompanys();
+        }
+
+        [HttpGet("{id}")]
+        public CoffeeCompany Get(string id)
+        {
+            BLCoffee newCoffee = new BLCoffee(context);
+            return newCoffee.GetCompany(id);
+        }
     }
 }

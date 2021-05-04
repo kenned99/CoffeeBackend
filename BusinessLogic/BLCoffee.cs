@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Model;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace BusinessLogic
 {
@@ -23,8 +24,50 @@ namespace BusinessLogic
         {
             _context.Add<Coffee>(coffee);
             _context.SaveChanges();
-
             return coffee;
         }
+        public CoffeeCompany InsertCompany(CoffeeCompany coffeeCompany)
+        {
+
+            _context.Add<CoffeeCompany>(coffeeCompany);
+            _context.SaveChanges();
+            return coffeeCompany;
+        }
+        public List<CoffeeCompany> GetCompanys()
+        {
+            return _context.CoffeeCompanies.ToList<CoffeeCompany>();
+       
+        }
+        public CoffeeCompany GetCompany(string id)
+        {
+            Guid gid = Guid.Parse(id);
+            return _context.CoffeeCompanies.FirstOrDefault(x => x.Id == gid);
+        }
+        public CheckIn InsertCheckin(CheckIn checkIn)
+        {
+            _context.Add<CheckIn>(checkIn);
+            _context.SaveChanges();
+            return checkIn;
+        }
+        public User InsertUser(User user)
+        {
+            _context.Add<User>(user);
+            _context.SaveChanges();
+            return user;
+        }
+        public List<User> GetUsers()
+        {
+            return _context.Users.ToList<User>();
+        }
+        public User GetUser(string id)
+        {
+            Guid gid = Guid.Parse(id);
+            return _context.Users.FirstOrDefault(x => x.Id == gid);
+        }
+        public User GetUser(string Email, string password)
+        {
+            return _context.Users.FirstOrDefault(x => x.Email == Email && x.Password == password);
+        }
+
     }
 }

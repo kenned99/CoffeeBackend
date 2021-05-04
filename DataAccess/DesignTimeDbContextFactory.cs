@@ -12,7 +12,5 @@ namespace DataAccess
             return new APIDbContext(builder.Options);
         }
 
-
-
     }
 }

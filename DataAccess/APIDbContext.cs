@@ -1,5 +1,6 @@
 ﻿using Model;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace DataAccess
 {
@@ -14,6 +15,7 @@ namespace DataAccess
         public DbSet<User> Users { get; set; }
         public DbSet<CheckIn> CheckIn { get; set; }
         public DbSet<Friend> Friends { get; set; }
+        public DbSet<CoffeeCompany> CoffeeCompanies { get; set; }
 
     }
 }

@@ -4,14 +4,16 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess1.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    partial class APIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210504083252_coffeecompany")]
+    partial class coffeecompany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,6 +76,9 @@ namespace DataAccess1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -93,6 +98,8 @@ namespace DataAccess1.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CompanyId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Coffee");
@@ -108,16 +115,11 @@ namespace DataAccess1.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<Guid?>("CoffeeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CoffeeId");
 
                     b.ToTable("CoffeeCompanies");
                 });
@@ -177,21 +179,20 @@ namespace DataAccess1.Migrations
 
             modelBuilder.Entity("Model.Coffee", b =>
                 {
+                    b.HasOne("Model.CoffeeCompany", "Company")
+                        .WithMany("Coffee")
+                        .HasForeignKey("CompanyId");
+
                     b.HasOne("Model.User", null)
                         .WithMany("Coffee")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("Model.CoffeeCompany", b =>
                 {
-                    b.HasOne("Model.Coffee", null)
-                        .WithMany("CoffeeCompanies")
-                        .HasForeignKey("CoffeeId");
-                });
-
-            modelBuilder.Entity("Model.Coffee", b =>
-                {
-                    b.Navigation("CoffeeCompanies");
+                    b.Navigation("Coffee");
                 });
 
             modelBuilder.Entity("Model.User", b =>
