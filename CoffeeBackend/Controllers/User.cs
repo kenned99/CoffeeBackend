@@ -26,43 +26,24 @@ namespace CoffeeBackend.Controllers
             _logger = logger;
             this.context = context;
         }
-        [HttpPost]
-        public User Post(String FirstName, String LastName, string Email, string Password)
-        {
 
 
-            User user = new Model.User();
-            
-            user.FirstName = FirstName;
-            user.LastName= LastName;
-            user.Email = Email;
-            user.Password = Password;
-
-            BLCoffee newCoffee = new BLCoffee(context);
-            newCoffee.InsertUser(user);
-            return user;
-        }
         [Authorize]
         [HttpGet]
-        public List<User> Get()
+        public List<User> Users()
         {
             BLCoffee newCoffee = new BLCoffee(context);
 
             return newCoffee.GetUsers();
         }
+        [Authorize]
         [HttpGet("{id}")]
-        public User Get(string id)
+        public User User(string id)
         {
             BLCoffee newCoffee = new BLCoffee(context);
             return newCoffee.GetUser(id);
         }
-        [HttpGet("{email}, {password}")]
-        public User Get(string email, string password)
-        {
-            BLCoffee newCoffee = new BLCoffee(context);
-            return newCoffee.GetUser(email, password);
-        }
-     
-  
+
+
     }
 }

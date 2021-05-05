@@ -36,12 +36,13 @@ namespace CoffeeBackend.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login(string Email, string Password)
+        public IActionResult Login([FromBody] string Email, string Password)
         {
             IActionResult response = Unauthorized();
             User login = new Model.User();
             login.Email = Email;
             login.Password = Password;
+
             var user = AuthenticateUser(login);
 
             if (user != null)
@@ -71,6 +72,23 @@ namespace CoffeeBackend.Controllers
         {
             BLCoffee newCoffee = new BLCoffee(context);
             return newCoffee.GetUser(login.Email , login.Password);
+        }
+        [AllowAnonymous]
+        [HttpPost("{firstname},{lastname},{email},{password}")]
+        public User SignUp([FromBody] String FirstName, String LastName, string Email, string Password)
+        {
+
+
+            User user = new Model.User();
+
+            user.FirstName = FirstName;
+            user.LastName = LastName;
+            user.Email = Email;
+            user.Password = Password;
+
+            BLCoffee newCoffee = new BLCoffee(context);
+            newCoffee.InsertUser(user);
+            return user;
         }
 
     }
