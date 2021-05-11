@@ -51,9 +51,11 @@ namespace CoffeeBackend.Controllers
             {
                 var tokenString = GenerateJSONWebToken(user);
                 response = Ok(new { token = tokenString, user = user});
+                return response;
             }
             
-            return response;
+
+            return Problem(detail: "error in username or password");
         }
 
         private string GenerateJSONWebToken(User userInfo)
@@ -78,15 +80,38 @@ namespace CoffeeBackend.Controllers
   
         [AllowAnonymous]
         [HttpPost("Signup")]
-        public User SignUp([FromBody] User user)
-        {
-            // TODO man kan oprette 2 med samme mail
+        public IActionResult SignUp([FromBody] User user)
+        {         
+            if(user.Password == null)
+            {
+                return Problem(detail: "missing password");
+            }
+            else if(user.FirstName == null)
+            {
+                return Problem(detail: "missing firstname");
+            }
+            else if (user.LastName == null)
+            {
+                return Problem(detail: "missing lastname");
+            }
+            else if (user.Email == null)
+            {
+                return Problem(detail: "missing email");
+            }
 
             user.Password = HashPassword(user);
 
             BLCoffee newCoffee = new BLCoffee(context);
+            
+            User excists = newCoffee.FindUserEmail(user.Email);
+            if(excists != null)
+            {
+                return Problem(
+                    detail: "Email already in use");
+            }
+
             newCoffee.InsertUser(user);
-            return user;
+            return Ok(user);
         }
         private string HashPassword(User user)
         {

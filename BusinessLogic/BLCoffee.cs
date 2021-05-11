@@ -67,7 +67,7 @@ namespace BusinessLogic
         }
         public User GetUser(Login login)
         {
-            User user = _context.Users.FirstOrDefault(x => x.Email == login.Email);
+            User user = FindUserEmail(login.Email);
 
             if(user == null)
             {
@@ -81,6 +81,10 @@ namespace BusinessLogic
             }
 
             return user;
+        }
+        public User FindUserEmail(string Email)
+        {
+           return _context.Users.FirstOrDefault(x => x.Email == Email);
         }
 
     }

@@ -15,5 +15,6 @@ namespace CoffeeInterfaces
 
         public List<User> GetUsers();
         public User GetUser(string username);
+        public User FindUserEmail(string Email);
     }
 }
