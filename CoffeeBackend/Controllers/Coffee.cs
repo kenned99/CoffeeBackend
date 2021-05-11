@@ -53,16 +53,6 @@ namespace CoffeeBackend.Controllers
 
         }
 
-        // PUT api/<Coffee>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
 
-        // DELETE api/<Coffee>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
