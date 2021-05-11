@@ -44,8 +44,6 @@ namespace CoffeeBackend.Controllers
 
             IActionResult response = Unauthorized();
 
-
-            new PasswordHasher<User>().VerifyHashedPassword(login, login.);
             User user = AuthenticateUser(login);
 
 
@@ -72,26 +70,28 @@ namespace CoffeeBackend.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private User AuthenticateUser(User login)
+        private User AuthenticateUser(Login login)
         {
             BLCoffee newCoffee = new BLCoffee(context);
-            return newCoffee.GetUser(login.Email , login.Password);
+            return newCoffee.GetUser(login);
         }
-        private string HashPassword(Login user)
-        {
-            string hashedpassword = new PasswordHasher<User>().HashPassword(user, user.Password);
-            return hashedpassword;
-        }
+  
         [AllowAnonymous]
         [HttpPost("Signup")]
-        public User SignUp([FromBody] Login login)
+        public User SignUp([FromBody] User user)
         {
-            User user = new User();
-            user.Password = HashPassword(login);
+            // TODO man kan oprette 2 med samme mail
+
+            user.Password = HashPassword(user);
 
             BLCoffee newCoffee = new BLCoffee(context);
             newCoffee.InsertUser(user);
             return user;
+        }
+        private string HashPassword(User user)
+        {
+            string hashedpassword = new PasswordHasher<User>().HashPassword(user, user.Password);
+            return hashedpassword;
         }
 
     }
