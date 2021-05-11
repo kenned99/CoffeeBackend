@@ -10,7 +10,6 @@ namespace Model
 {
     public class User:IdRec
     {
-        public string password;
 
         [MaxLength(50)]
         [JsonProperty("FirstName")]
