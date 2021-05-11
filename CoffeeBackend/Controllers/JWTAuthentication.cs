@@ -36,7 +36,7 @@ namespace CoffeeBackend.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login([FromBody] string Email, string Password)
+        public IActionResult Login(string Email, string Password)
         {
             IActionResult response = Unauthorized();
             User login = new Model.User();
@@ -75,7 +75,7 @@ namespace CoffeeBackend.Controllers
         }
         [AllowAnonymous]
         [HttpPost("{firstname},{lastname},{email},{password}")]
-        public User SignUp([FromBody] String FirstName, String LastName, string Email, string Password)
+        public User SignUp(String FirstName, String LastName, string Email, string Password)
         {
 
 

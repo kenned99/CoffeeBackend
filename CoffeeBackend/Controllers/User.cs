@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CoffeeBackend.Controllers
 {
-    [Route("User")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
