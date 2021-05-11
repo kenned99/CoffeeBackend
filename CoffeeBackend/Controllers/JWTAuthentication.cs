@@ -2,11 +2,13 @@
 using DataAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -36,22 +38,24 @@ namespace CoffeeBackend.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login(string Email, string Password)
+        
+        public IActionResult Login([FromBody] Login login)
         {
-            IActionResult response = Unauthorized();
-            User login = new Model.User();
-            login.Email = Email;
-            login.Password = Password;
 
-            var user = AuthenticateUser(login);
+            IActionResult response = Unauthorized();
+
+            User user = AuthenticateUser(login);
+
 
             if (user != null)
             {
                 var tokenString = GenerateJSONWebToken(user);
-                response = Ok(new { token = tokenString });
+                response = Ok(new { token = tokenString, user = user});
+                return response;
             }
+            
 
-            return response;
+            return Problem(detail: "error in username or password");
         }
 
         private string GenerateJSONWebToken(User userInfo)
@@ -68,27 +72,51 @@ namespace CoffeeBackend.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private User AuthenticateUser(User login)
+        private User AuthenticateUser(Login login)
         {
             BLCoffee newCoffee = new BLCoffee(context);
-            return newCoffee.GetUser(login.Email , login.Password);
+            return newCoffee.GetUser(login);
         }
+  
         [AllowAnonymous]
-        [HttpPost("{firstname},{lastname},{email},{password}")]
-        public User SignUp(String FirstName, String LastName, string Email, string Password)
-        {
+        [HttpPost("Signup")]
+        public IActionResult SignUp([FromBody] User user)
+        {         
+            if(user.Password == null)
+            {
+                return Problem(detail: "missing password");
+            }
+            else if(user.FirstName == null)
+            {
+                return Problem(detail: "missing firstname");
+            }
+            else if (user.LastName == null)
+            {
+                return Problem(detail: "missing lastname");
+            }
+            else if (user.Email == null)
+            {
+                return Problem(detail: "missing email");
+            }
 
-
-            User user = new Model.User();
-
-            user.FirstName = FirstName;
-            user.LastName = LastName;
-            user.Email = Email;
-            user.Password = Password;
+            user.Password = HashPassword(user);
 
             BLCoffee newCoffee = new BLCoffee(context);
+            
+            User excists = newCoffee.FindUserEmail(user.Email);
+            if(excists != null)
+            {
+                return Problem(
+                    detail: "Email already in use");
+            }
+
             newCoffee.InsertUser(user);
-            return user;
+            return Ok(user);
+        }
+        private string HashPassword(User user)
+        {
+            string hashedpassword = new PasswordHasher<User>().HashPassword(user, user.Password);
+            return hashedpassword;
         }
 
     }

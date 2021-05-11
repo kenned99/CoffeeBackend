@@ -5,6 +5,7 @@ using Model;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 
 namespace BusinessLogic
 {
@@ -64,9 +65,26 @@ namespace BusinessLogic
             Guid gid = Guid.Parse(id);
             return _context.Users.FirstOrDefault(x => x.Id == gid);
         }
-        public User GetUser(string Email, string password)
+        public User GetUser(Login login)
         {
-            return _context.Users.FirstOrDefault(x => x.Email == Email && x.Password == password);
+            User user = FindUserEmail(login.Email);
+
+            if(user == null)
+            {
+                return user;
+            }
+            var VerifikationRes = new PasswordHasher<User>().VerifyHashedPassword(user, user.Password, login.Password);
+
+            if (VerifikationRes != PasswordVerificationResult.Success)
+            {
+                return null;
+            }
+
+            return user;
+        }
+        public User FindUserEmail(string Email)
+        {
+           return _context.Users.FirstOrDefault(x => x.Email == Email);
         }
 
     }

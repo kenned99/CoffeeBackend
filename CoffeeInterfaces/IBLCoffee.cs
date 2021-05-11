@@ -14,6 +14,7 @@ namespace CoffeeInterfaces
         public User InsertUser(User user);
 
         public List<User> GetUsers();
-        public User GetUser(string username, string password);
+        public User GetUser(string username);
+        public User FindUserEmail(string Email);
     }
 }
