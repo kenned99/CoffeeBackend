@@ -2,11 +2,13 @@
 using DataAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -36,21 +38,23 @@ namespace CoffeeBackend.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login([FromBody] string Email, [FromBody] string Password)
+        
+        public IActionResult Login([FromBody] Login login)
         {
-            IActionResult response = Unauthorized();
-            User login = new Model.User();
-            login.Email = Email;
-            login.Password = Password;
 
-            var user = AuthenticateUser(login);
+            IActionResult response = Unauthorized();
+
+
+            new PasswordHasher<User>().VerifyHashedPassword(login, login.);
+            User user = AuthenticateUser(login);
+
 
             if (user != null)
             {
                 var tokenString = GenerateJSONWebToken(user);
-                response = Ok(new { token = tokenString });
+                response = Ok(new { token = tokenString, user = user});
             }
-
+            
             return response;
         }
 
@@ -73,18 +77,17 @@ namespace CoffeeBackend.Controllers
             BLCoffee newCoffee = new BLCoffee(context);
             return newCoffee.GetUser(login.Email , login.Password);
         }
-        [AllowAnonymous]
-        [HttpPost("{firstname},{lastname},{email},{password}")]
-        public User SignUp(String FirstName, String LastName, string Email, string Password)
+        private string HashPassword(Login user)
         {
-
-
-            User user = new Model.User();
-
-            user.FirstName = FirstName;
-            user.LastName = LastName;
-            user.Email = Email;
-            user.Password = Password;
+            string hashedpassword = new PasswordHasher<User>().HashPassword(user, user.Password);
+            return hashedpassword;
+        }
+        [AllowAnonymous]
+        [HttpPost("Signup")]
+        public User SignUp([FromBody] Login login)
+        {
+            User user = new User();
+            user.Password = HashPassword(login);
 
             BLCoffee newCoffee = new BLCoffee(context);
             newCoffee.InsertUser(user);
