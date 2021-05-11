@@ -36,7 +36,7 @@ namespace CoffeeBackend.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login(string Email, string Password)
+        public IActionResult Login([FromBody] string Email, [FromBody] string Password)
         {
             IActionResult response = Unauthorized();
             User login = new Model.User();
