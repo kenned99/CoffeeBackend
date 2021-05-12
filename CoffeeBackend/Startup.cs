@@ -37,7 +37,7 @@ namespace CoffeeBackend
             services.AddControllers();
             services.AddScoped<IBLCoffee, BLCoffee>();
             
-            services.AddDbContextPool<APIDbContext>(builder => builder.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddDbContextPool<APIDbContext>(builder => builder.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("Default")));
 
             services.AddSwaggerGen(c =>
             {

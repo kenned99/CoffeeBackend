@@ -43,10 +43,8 @@ namespace CoffeeBackend.Controllers
 
         // POST api/<Coffee>
         [HttpPost]
-        public Coffee Post([FromBody] Coffee Coffee)
+        public Coffee Post([FromBody] Coffee coffee)
         {
-            Coffee coffee = new Coffee();
-
             BLCoffee newcoffee = new BLCoffee(context);
             newcoffee.InsertCoffee(coffee);
             return coffee;

@@ -16,8 +16,7 @@ namespace Model
         [MaxLength(200)]
         [JsonProperty("Address")]
         public string Address { get; set; }
-
-        public virtual ICollection<Coffee> Coffee { get; set; }
+        public virtual IList<Coffee> Coffee { get; set; }
 
     }
 }

@@ -4,14 +4,16 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess1.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    partial class APIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210512112433_update8")]
+    partial class update8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,7 +76,7 @@ namespace DataAccess1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CoffeeCompanyId")
+                    b.Property<Guid?>("CompanyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
@@ -95,7 +97,7 @@ namespace DataAccess1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CoffeeCompanyId");
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("UserId");
 
@@ -176,15 +178,15 @@ namespace DataAccess1.Migrations
 
             modelBuilder.Entity("Model.Coffee", b =>
                 {
-                    b.HasOne("Model.CoffeeCompany", null)
+                    b.HasOne("Model.CoffeeCompany", "Company")
                         .WithMany("Coffee")
-                        .HasForeignKey("CoffeeCompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CompanyId");
 
                     b.HasOne("Model.User", null)
                         .WithMany("Coffee")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("Model.CoffeeCompany", b =>

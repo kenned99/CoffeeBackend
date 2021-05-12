@@ -19,8 +19,11 @@ namespace Model
         [JsonProperty("Date")]
         public DateTime Date { get; set; }
         [JsonProperty("Genre")]
-        public Genre Genre { get; set; }
-        public CoffeeCompany Company { get; set; }
+        public virtual Genre Genre { get; set; }
+        //public virtual CoffeeCompany Company { get; set; }
+
+        [JsonProperty("CoffeeCompanyId")]
+        public Guid CoffeeCompanyId { get; set; }
     }
    public enum Genre
     {
