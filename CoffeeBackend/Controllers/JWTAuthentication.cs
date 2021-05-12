@@ -66,6 +66,7 @@ namespace CoffeeBackend.Controllers
         private string GenerateJSONWebToken(User userInfo)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
@@ -73,6 +74,8 @@ namespace CoffeeBackend.Controllers
               null,
               expires: DateTime.Now.AddMinutes(120),
               signingCredentials: credentials);
+
+            token.Payload["Id"] = userInfo.Id;
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
