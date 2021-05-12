@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,12 +11,16 @@ namespace Model
     public class Coffee:IdRec 
     {
         [MaxLength(50)]
+        [JsonProperty("Name")]
         public string Name { get; set; }
-        [MaxLength(5)]
+        
+        [JsonProperty("Rating")]
         public double Rating { get; set; }
+        [JsonProperty("Date")]
         public DateTime Date { get; set; }
+        [JsonProperty("Genre")]
         public Genre Genre { get; set; }
-        public virtual ICollection<CoffeeCompany> CoffeeCompanies { get; set; }
+        public CoffeeCompany Company { get; set; }
     }
    public enum Genre
     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,11 +11,13 @@ namespace Model
     public class CoffeeCompany: IdRec
     {
         [MaxLength(200)]
+        [JsonProperty("Name")]
         public string Name { get; set; }
         [MaxLength(200)]
+        [JsonProperty("Address")]
         public string Address { get; set; }
 
-        
+        public virtual ICollection<Coffee> Coffee { get; set; }
 
     }
 }

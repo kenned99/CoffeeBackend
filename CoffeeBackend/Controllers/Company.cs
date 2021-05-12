@@ -1,5 +1,6 @@
 ﻿using BusinessLogic;
 using DataAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -29,14 +30,14 @@ namespace CoffeeBackend.Controllers
         }
 
         [HttpPost]
-        public CoffeeCompany Post(String CompName, String Address)
+        [Authorize]
+        public CoffeeCompany Post([FromBody] CoffeeCompany company)
         {
-            CoffeeCompany Company = new CoffeeCompany();
-            Company.Name = CompName;
-            Company.Address = Address;
+          
             BLCoffee newCoffee = new BLCoffee(context);
-            newCoffee.InsertCompany(Company);
-            return Company;
+            newCoffee.InsertCompany(company);
+            return company;
+
         }
         [HttpGet]
         public List<CoffeeCompany> Get()

@@ -4,20 +4,37 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess1.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    partial class APIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210512082650_update5")]
+    partial class update5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CoffeeCoffeeCompany", b =>
+                {
+                    b.Property<Guid>("CoffeeCompaniesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CoffeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CoffeeCompaniesId", "CoffeeId");
+
+                    b.HasIndex("CoffeeId");
+
+                    b.ToTable("CoffeeCoffeeCompany");
+                });
 
             modelBuilder.Entity("FriendUser", b =>
                 {
@@ -74,9 +91,6 @@ namespace DataAccess1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CompanyId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -88,14 +102,13 @@ namespace DataAccess1.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<double>("Rating")
+                        .HasMaxLength(5)
                         .HasColumnType("float");
 
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
 
                     b.HasIndex("UserId");
 
@@ -159,6 +172,21 @@ namespace DataAccess1.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("CoffeeCoffeeCompany", b =>
+                {
+                    b.HasOne("Model.CoffeeCompany", null)
+                        .WithMany()
+                        .HasForeignKey("CoffeeCompaniesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Coffee", null)
+                        .WithMany()
+                        .HasForeignKey("CoffeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FriendUser", b =>
                 {
                     b.HasOne("Model.Friend", null)
@@ -176,20 +204,9 @@ namespace DataAccess1.Migrations
 
             modelBuilder.Entity("Model.Coffee", b =>
                 {
-                    b.HasOne("Model.CoffeeCompany", "Company")
-                        .WithMany("Coffee")
-                        .HasForeignKey("CompanyId");
-
                     b.HasOne("Model.User", null)
                         .WithMany("Coffee")
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("Model.CoffeeCompany", b =>
-                {
-                    b.Navigation("Coffee");
                 });
 
             modelBuilder.Entity("Model.User", b =>
