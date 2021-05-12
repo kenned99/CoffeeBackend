@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -41,6 +42,29 @@ namespace CoffeeBackend.Controllers
         {
             return Ok();
         }
+        [Authorize]
+        [HttpGet]
+        public IActionResult Login()
+        {
+            string jwt = Request.Headers["authorization"];
+            jwt = jwt.Remove(0, 7);
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwt);
+            
+            string id = token.Claims.First(claim => claim.Type == "Id").Value;
+
+            if (id == null)
+            {
+                return Problem("no userkey");
+            }
+
+            BLCoffee newCoffee = new BLCoffee(context);
+
+            User user = newCoffee.GetUser(id);
+
+            return Ok(user);
+        }
+
 
         [AllowAnonymous]
         [HttpPost]
