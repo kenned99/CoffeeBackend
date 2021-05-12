@@ -10,7 +10,6 @@ namespace CoffeeInterfaces
         public List<Coffee> getCoffee();
         public Coffee InsertCoffee(Coffee coffee);
         public CoffeeCompany InsertCompany(CoffeeCompany coffeeCompany);
-        public CheckIn InsertCheckin(CheckIn checkIn);
         public User InsertUser(User user);
 
         public List<User> GetUsers();

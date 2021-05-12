@@ -39,16 +39,31 @@ namespace BusinessLogic
             return _context.CoffeeCompanies.ToList<CoffeeCompany>();
 
         }
+
+        public double GetRating(Guid Id)
+        {
+            return _context.CoffeeRating.Where(x => x.CoffeeId == Id && x.CoffeeId != null).Average(x => x.Rating);
+        }
+
+        public List<CoffeeRating> GetAllCoffee(Guid Id)
+        {
+            return _context.CoffeeRating.Where(x => x.CoffeeId == Id && x.CoffeeId != null).ToList<CoffeeRating>();
+        }
+
         public CoffeeCompany GetCompany(string id)
         {
             Guid gid = Guid.Parse(id);
             return _context.CoffeeCompanies.FirstOrDefault(x => x.Id == gid);
         }
-        public CheckIn InsertCheckin(CheckIn checkIn)
+
+   
+
+        public CoffeeRating InsertCoffeeRating(CoffeeRating coffeeRating)
         {
-            _context.Add<CheckIn>(checkIn);
+            _context.Add<CoffeeRating>(coffeeRating);
             _context.SaveChanges();
-            return checkIn;
+            return coffeeRating;
+
         }
         public User InsertUser(User user)
         {

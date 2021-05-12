@@ -13,9 +13,9 @@ namespace DataAccess
 
         public DbSet<Coffee> Coffee { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<CheckIn> CheckIn { get; set; }
         public DbSet<Friend> Friends { get; set; }
         public DbSet<CoffeeCompany> CoffeeCompanies { get; set; }
 
+        public DbSet<CoffeeRating> CoffeeRating { get; set; }
     }
 }

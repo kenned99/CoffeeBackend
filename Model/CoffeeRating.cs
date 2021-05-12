@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,19 +8,26 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class CheckIn:IdRec
+    public class CoffeeRating : IdRec
     {
+
+        [JsonProperty("Rating")]
+        public double Rating { get; set; }
+        [JsonProperty("Date")]
+        public DateTime Date { get; set; }
+
         [MaxLength(200)]
         public string Comment { get; set; }
-        [MaxLength(50)]
-        public string Name { get; set; }
-        [MaxLength(5)]
-        public string Rating { get; set; }
+
         [MaxLength(200)]
         public string Location { get; set; }
-        [MaxLength(100)]
-        public string Company { get; set; }
-        public DateTime Date { get; set; }
+
+
+        [JsonProperty("CoffeeRatingId")]
+        [Required]
+        public Guid CoffeeId { get; set; }
+
+        public ServingStyle ServeringStyle { get; set; }
 
     }
     public enum ServingStyle

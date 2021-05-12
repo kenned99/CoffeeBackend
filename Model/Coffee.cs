@@ -13,9 +13,7 @@ namespace Model
         [MaxLength(50)]
         [JsonProperty("Name")]
         public string Name { get; set; }
-        
-        [JsonProperty("Rating")]
-        public double Rating { get; set; }
+
         [JsonProperty("Date")]
         public DateTime Date { get; set; }
         [JsonProperty("Genre")]
@@ -24,6 +22,7 @@ namespace Model
 
         [JsonProperty("CoffeeCompanyId")]
         public Guid CoffeeCompanyId { get; set; }
+        public virtual IList<CoffeeRating> CoffeeRating { get; set; }
     }
    public enum Genre
     {
