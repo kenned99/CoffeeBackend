@@ -26,19 +26,12 @@ namespace CoffeeBackend.Controllers
             this.context = context;
         }
 
-
-        // GET: api/<Coffee>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
         // GET api/<Coffee>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        public IActionResult Get()
         {
-            return "value";
+            BLCoffee newCoffee = new BLCoffee(context);
+            return Ok(newCoffee.GetCoffies());
         }
 
         // POST api/<Coffee>

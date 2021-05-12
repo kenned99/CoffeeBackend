@@ -13,10 +13,10 @@ namespace BusinessLogic
     {
 
         private readonly APIDbContext _context;
-        public BLCoffee(APIDbContext context) 
+        public BLCoffee(APIDbContext context)
         {
             _context = context;
-        } 
+        }
         public List<Coffee> getCoffee()
         {
             throw new NotImplementedException();
@@ -37,7 +37,7 @@ namespace BusinessLogic
         public List<CoffeeCompany> GetCompanys()
         {
             return _context.CoffeeCompanies.ToList<CoffeeCompany>();
-       
+
         }
         public CoffeeCompany GetCompany(string id)
         {
@@ -69,7 +69,7 @@ namespace BusinessLogic
         {
             User user = FindUserEmail(login.Email);
 
-            if(user == null)
+            if (user == null)
             {
                 return user;
             }
@@ -84,7 +84,11 @@ namespace BusinessLogic
         }
         public User FindUserEmail(string Email)
         {
-           return _context.Users.FirstOrDefault(x => x.Email == Email);
+            return _context.Users.FirstOrDefault(x => x.Email == Email);
+        }
+        public List<Coffee> GetCoffies()
+        { 
+            return _context.Coffee.ToList<Coffee>();
         }
 
     }
