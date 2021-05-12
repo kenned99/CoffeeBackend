@@ -35,10 +35,15 @@ namespace CoffeeBackend.Controllers
             this.context = context;
         }
 
+        [Authorize]
+        [HttpGet("Status")]
+        public IActionResult Status()
+        {
+            return Ok();
+        }
 
         [AllowAnonymous]
         [HttpPost]
-        
         public IActionResult Login([FromBody] Login login)
         {
 
