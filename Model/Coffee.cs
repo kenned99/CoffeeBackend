@@ -19,10 +19,11 @@ namespace Model
         public DateTime Date { get; set; }
         [JsonProperty("Genre")]
         public virtual Genre Genre { get; set; }
-        //public virtual CoffeeCompany Company { get; set; }
+        public virtual CoffeeCompany Company { get; set; }
 
         [JsonProperty("CoffeeCompanyId")]
         public Guid CoffeeCompanyId { get; set; }
+
         public virtual IList<CoffeeRating> CoffeeRating { get; set; }
 
         [NotMapped]

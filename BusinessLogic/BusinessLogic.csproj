@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CoffeeInterfaces\CoffeeInterfaces.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess1.csproj" />
+    <ProjectReference Include="..\DTO\DTO.csproj" />
   </ItemGroup>
 
 </Project>

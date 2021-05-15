@@ -6,6 +6,7 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
+using DTO;
 
 namespace BusinessLogic
 {
@@ -21,23 +22,35 @@ namespace BusinessLogic
         {
             throw new NotImplementedException();
         }
-        public Coffee InsertCoffee(Coffee coffee)
+        public CoffeeInfo InsertCoffee(Coffee coffee)
         {
             _context.Add<Coffee>(coffee);
             _context.SaveChanges();
-            return coffee;
+            return CoffeeToCoffeeInfo(coffee);
         }
-        public CoffeeCompany InsertCompany(CoffeeCompany coffeeCompany)
+        public CoffeeCompanyInfo InsertCompany(CoffeeCompany coffeeCompany)
         {
 
             _context.Add<CoffeeCompany>(coffeeCompany);
             _context.SaveChanges();
-            return coffeeCompany;
+
+            return CoffeeCompanyToCoffeeCompanyInfo(coffeeCompany);
         }
-        public List<CoffeeCompany> GetCompanys()
+
+        internal List<CoffeeCompany> GetCompanys()
         {
             return _context.CoffeeCompanies.ToList<CoffeeCompany>();
+        }
 
+        public IEnumerable<CoffeeCompanyInfo> GetCompanysInfo()
+        {
+            return GetCompanys().Select(u => new DTO.CoffeeCompanyInfo
+            {
+                Id = u.Id,
+                Address = u.Address,
+                Coffees = u.Coffee.Select(CoffeeToCoffeeInfo),
+                Name = u.Name
+            });
         }
 
         public double GetRating(Guid Id)
@@ -50,13 +63,20 @@ namespace BusinessLogic
             return _context.CoffeeRating.Where(x => x.CoffeeId == Id && x.CoffeeId != null).ToList<CoffeeRating>();
         }
 
-        public CoffeeCompany GetCompany(string id)
+        public CoffeeCompanyInfo GetCompany(string id)
         {
             Guid gid = Guid.Parse(id);
-            return _context.CoffeeCompanies.FirstOrDefault(x => x.Id == gid);
-        }
 
-   
+
+            CoffeeCompany coffeeCompany = _context.CoffeeCompanies.FirstOrDefault(x => x.Id == gid);
+            return new DTO.CoffeeCompanyInfo
+            {
+                Id = coffeeCompany.Id,
+                Address = coffeeCompany.Address,
+                Coffees = coffeeCompany.Coffee.Select(CoffeeToCoffeeInfo),
+                Name = coffeeCompany.Name
+            };
+        }
 
         public CoffeeRating InsertCoffeeRating(CoffeeRating coffeeRating)
         {
@@ -105,6 +125,33 @@ namespace BusinessLogic
         { 
             return _context.Coffee.ToList<Coffee>();
         }
+        public IEnumerable<CoffeeInfo> GetCoffeeInfo()
+        {
+            return GetCoffies().Select(CoffeeToCoffeeInfo);
+        }
 
+        internal static CoffeeInfo CoffeeToCoffeeInfo(Coffee coffee)
+        {
+            return new CoffeeInfo
+            {
+                Id = coffee.Id,
+                Name = coffee.Name,
+                AverageRating = coffee.AverageRating,
+                CoffeeCompanyId = coffee.CoffeeCompanyId,
+                CoffeeCompanyName = coffee.Company.Name
+            };
+            
+        }
+        internal static CoffeeCompanyInfo CoffeeCompanyToCoffeeCompanyInfo(CoffeeCompany coffeeCompany)
+        {
+            return new CoffeeCompanyInfo
+            {
+                Id = coffeeCompany.Id,
+                Address = coffeeCompany.Address,
+                Coffees = coffeeCompany.Coffee.Select(CoffeeToCoffeeInfo),
+                Name = coffeeCompany.Name
+            };
+
+        }
     }
 }

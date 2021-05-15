@@ -40,18 +40,18 @@ namespace CoffeeBackend.Controllers
 
         }
         [HttpGet]
-        public List<CoffeeCompany> Get()
+        public IActionResult Get()
         {
             BLCoffee newCoffee = new BLCoffee(context);
 
-            return newCoffee.GetCompanys();
+            return Ok(newCoffee.GetCompanysInfo());
         }
 
         [HttpGet("{id}")]
-        public CoffeeCompany Get(string id)
+        public IActionResult Get(string id)
         {
             BLCoffee newCoffee = new BLCoffee(context);
-            return newCoffee.GetCompany(id);
+            return Ok(newCoffee.GetCompany(id));
         }
     }
 }

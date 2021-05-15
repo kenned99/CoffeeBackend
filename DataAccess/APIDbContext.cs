@@ -8,7 +8,6 @@ namespace DataAccess
     {
         public APIDbContext(DbContextOptions<APIDbContext> options) : base(options)
         {
-                
         }
 
         public DbSet<Coffee> Coffee { get; set; }

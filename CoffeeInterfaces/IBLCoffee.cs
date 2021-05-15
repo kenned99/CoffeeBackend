@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using DTO;
+using Model;
 using System;
 using System.Collections.Generic;
 
@@ -7,14 +8,15 @@ namespace CoffeeInterfaces
     public interface IBLCoffee
     {
  
-        public List<Coffee> getCoffee();
-        public Coffee InsertCoffee(Coffee coffee);
-        public CoffeeCompany InsertCompany(CoffeeCompany coffeeCompany);
+
+        public CoffeeInfo InsertCoffee(Coffee coffee);
+        public CoffeeCompanyInfo InsertCompany(CoffeeCompany coffeeCompany);
         public User InsertUser(User user);
 
         public List<User> GetUsers();
         public User GetUser(string username);
         public User FindUserEmail(string Email);
-        public List<Coffee> GetCoffies();
+        public IEnumerable<CoffeeInfo> GetCoffeeInfo();
+        public IEnumerable<CoffeeCompanyInfo> GetCompanysInfo();
     }
 }

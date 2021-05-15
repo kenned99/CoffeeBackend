@@ -31,7 +31,7 @@ namespace CoffeeBackend.Controllers
         public IActionResult Get()
         {
             BLCoffee newCoffee = new BLCoffee(context);
-            return Ok(newCoffee.GetCoffies());
+            return Ok(newCoffee.GetCoffeeInfo());
         }
 
         // POST api/<Coffee>
