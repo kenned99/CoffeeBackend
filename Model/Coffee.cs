@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,27 @@ namespace Model
         [JsonProperty("CoffeeCompanyId")]
         public Guid CoffeeCompanyId { get; set; }
         public virtual IList<CoffeeRating> CoffeeRating { get; set; }
+
+        [NotMapped]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public double AverageRating
+        {
+            get {
+                double df;
+                try
+                {
+                    df = CoffeeRating.Where(x => x.CoffeeId == Id).Average(x => x.Rating);
+                }
+                catch (Exception)
+                {
+
+                    df = 0;
+                }
+                return df;
+            
+            }
+            private set { /* needed for EF */ }
+        }
     }
    public enum Genre
     {
