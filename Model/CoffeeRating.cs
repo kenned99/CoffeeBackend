@@ -26,13 +26,18 @@ namespace Model
         [JsonProperty("CoffeeRatingId")]
         [Required]
         public Guid CoffeeId { get; set; }
-
+        [JsonProperty("UserId")]
+        public Guid UserId { get; set; }
         public ServingStyle ServeringStyle { get; set; }
+
 
     }
     public enum ServingStyle
     {
         Arabica,
         Americano,
+        Latte,
+        ColdBrew,
+        Espresso
     }
 }

@@ -58,6 +58,30 @@ namespace BusinessLogic
             return _context.CoffeeRating.Where(x => x.CoffeeId == Id && x.CoffeeId != null).Average(x => x.Rating);
         }
 
+        public List<CoffeeRatingInfo> GetUserCoffeeRatings(string id)
+        {
+            User user = GetUser(id);
+
+            List<CoffeeRatingInfo> list = new List<CoffeeRatingInfo>();
+            foreach (CoffeeRating coffeeRating in user.CoffeeRating)
+            {
+                CoffeeRatingInfo coffeeRatingList = new CoffeeRatingInfo
+                {
+                    CoffeeId = coffeeRating.CoffeeId,
+                    CoffeeName = _context.Coffee.Where(x => x.Id == coffeeRating.CoffeeId).SingleOrDefault()?.Name,
+                    Comment = coffeeRating.Comment,
+                    Date = coffeeRating.Date,
+                    Location = coffeeRating.Location,
+                    Rating = coffeeRating.Rating,
+                    ServeringStyle = coffeeRating.ServeringStyle
+                };
+
+                list.Add(coffeeRatingList);
+            }
+
+            return list;
+        }
+
         public List<CoffeeRating> GetAllCoffee(Guid Id)
         {
             return _context.CoffeeRating.Where(x => x.CoffeeId == Id && x.CoffeeId != null).ToList<CoffeeRating>();

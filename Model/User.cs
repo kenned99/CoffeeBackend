@@ -31,6 +31,8 @@ namespace Model
         public virtual ICollection<Friend> Friends { get; set; }
 
         public virtual ICollection<Coffee> Coffee { get; set; }
+        public virtual IList<CoffeeRating> CoffeeRating { get; set; }
+
     }
 
     public class ProductImage

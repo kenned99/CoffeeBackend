@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Model;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,7 +44,25 @@ namespace CoffeeBackend.Controllers
             BLCoffee newCoffee = new BLCoffee(context);
             return newCoffee.GetUser(id);
         }
+        [Authorize]
+        [HttpGet("Ratings")]
+        public IActionResult UserRatings()
+        {
+            string jwt = Request.Headers["authorization"];
+            jwt = jwt.Remove(0, 7);
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwt);
 
+            string id = token.Claims.First(claim => claim.Type == "Id").Value;
+
+            if (id == null)
+            {
+                return Problem("no userkey");
+            }
+
+            BLCoffee newCoffee = new BLCoffee(context);
+            return Ok(newCoffee.GetUserCoffeeRatings(id));
+        }
 
     }
 }
