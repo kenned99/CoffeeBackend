@@ -9,6 +9,7 @@ namespace DTO
 {
     public class CoffeeRatingInfo
     {
+        public Guid Id { get; set; }
         public double Rating { get; set; }
         public DateTime Date { get; set; }
         public string Comment { get; set; }

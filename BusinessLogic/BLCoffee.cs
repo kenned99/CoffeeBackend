@@ -58,15 +58,18 @@ namespace BusinessLogic
             return _context.CoffeeRating.Where(x => x.CoffeeId == Id && x.CoffeeId != null).Average(x => x.Rating);
         }
 
-        public List<CoffeeRatingInfo> GetUserCoffeeRatings(string id)
+        public UserRatingInfo GetUserCoffeeRatings(string id)
         {
             User user = GetUser(id);
+
+
 
             List<CoffeeRatingInfo> list = new List<CoffeeRatingInfo>();
             foreach (CoffeeRating coffeeRating in user.CoffeeRating)
             {
                 CoffeeRatingInfo coffeeRatingList = new CoffeeRatingInfo
                 {
+                    Id = coffeeRating.Id,
                     CoffeeId = coffeeRating.CoffeeId,
                     CoffeeName = _context.Coffee.Where(x => x.Id == coffeeRating.CoffeeId).SingleOrDefault()?.Name,
                     Comment = coffeeRating.Comment,
@@ -79,7 +82,18 @@ namespace BusinessLogic
                 list.Add(coffeeRatingList);
             }
 
-            return list;
+            UserRatingInfo userInfo = new UserRatingInfo
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                CoffeeRating = list,
+                Email = user.Email,
+                CoffeeRatings = list.Count,
+                CoffeeTypes = list.Count
+            };
+
+            return userInfo;
         }
 
         public List<CoffeeRating> GetAllCoffee(Guid Id)
