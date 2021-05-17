@@ -18,9 +18,9 @@ namespace BusinessLogic
         {
             _context = context;
         }
-        public List<Coffee> getCoffee()
+        public Coffee getCoffee(Guid id)
         {
-            throw new NotImplementedException();
+            return _context.Coffee.Where(x => x.Id == id).FirstOrDefault();
         }
         public CoffeeInfo InsertCoffee(Coffee coffee)
         {
@@ -62,11 +62,13 @@ namespace BusinessLogic
         {
             User user = GetUser(id);
 
-
+            
 
             List<CoffeeRatingInfo> list = new List<CoffeeRatingInfo>();
             foreach (CoffeeRating coffeeRating in user.CoffeeRating)
             {
+                Coffee coffee = getCoffee(coffeeRating.CoffeeId);
+
                 CoffeeRatingInfo coffeeRatingList = new CoffeeRatingInfo
                 {
                     Id = coffeeRating.Id,
@@ -76,7 +78,8 @@ namespace BusinessLogic
                     Date = coffeeRating.Date,
                     Location = coffeeRating.Location,
                     Rating = coffeeRating.Rating,
-                    ServeringStyle = coffeeRating.ServeringStyle
+                    ServeringStyle = coffeeRating.ServeringStyle,
+                    CoffeeCompanyName = coffee.Company.Name 
                 };
 
                 list.Add(coffeeRatingList);

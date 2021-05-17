@@ -16,6 +16,7 @@ namespace DTO
         public string Location { get; set; }
         public Guid CoffeeId { get; set; }
         public string CoffeeName { get; set; }
+        public string CoffeeCompanyName { get; set; }
         public ServingStyle ServeringStyle { get; set; }
     }
 }
