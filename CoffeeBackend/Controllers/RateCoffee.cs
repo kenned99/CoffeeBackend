@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Model;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,10 +51,19 @@ namespace CoffeeBackend.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] CoffeeRating coffeeRating)
         {
-            if(coffeeRating.CoffeeId == Guid.Empty)
+            string jwt = Request.Headers["authorization"];
+            jwt = jwt.Remove(0, 7);
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwt);
+
+            string id = token.Claims.First(claim => claim.Type == "Id").Value;
+
+            if (id == null)
             {
-                return Problem("missing coffeeId");
+                return Problem("no userkey");
             }
+            coffeeRating.UserId = Guid.Parse(id);
+
             BLCoffee newCoffee = new BLCoffee(context);
 
             return Ok(newCoffee.InsertCoffeeRating(coffeeRating));
