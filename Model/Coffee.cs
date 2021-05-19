@@ -46,6 +46,7 @@ namespace Model
             }
             private set { /* needed for EF */ }
         }
+        public string ImageLink { get; set; }
     }
    public enum Genre
     {

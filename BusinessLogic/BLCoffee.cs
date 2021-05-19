@@ -22,19 +22,19 @@ namespace BusinessLogic
         {
             return _context.Coffee.Where(x => x.Id == id).FirstOrDefault();
         }
-        public CoffeeInfo InsertCoffee(Coffee coffee)
+        public Coffee InsertCoffee(Coffee coffee)
         {
             _context.Add<Coffee>(coffee);
             _context.SaveChanges();
-            return CoffeeToCoffeeInfo(coffee);
+            return coffee;
         }
-        public CoffeeCompanyInfo InsertCompany(CoffeeCompany coffeeCompany)
+        public CoffeeCompany InsertCompany(CoffeeCompany coffeeCompany)
         {
 
             _context.Add<CoffeeCompany>(coffeeCompany);
             _context.SaveChanges();
 
-            return CoffeeCompanyToCoffeeCompanyInfo(coffeeCompany);
+            return coffeeCompany;
         }
 
         internal List<CoffeeCompany> GetCompanys()
@@ -79,7 +79,9 @@ namespace BusinessLogic
                     Location = coffeeRating.Location,
                     Rating = coffeeRating.Rating,
                     ServeringStyle = coffeeRating.ServeringStyle,
-                    CoffeeCompanyName = coffee.Company.Name 
+                    CoffeeCompanyName = coffee.Company.Name,
+                    ImageLink = coffee.ImageLink
+
                 };
 
                 list.Add(coffeeRatingList);
@@ -180,7 +182,9 @@ namespace BusinessLogic
                 Name = coffee.Name,
                 AverageRating = coffee.AverageRating,
                 CoffeeCompanyId = coffee.CoffeeCompanyId,
-                CoffeeCompanyName = coffee.Company.Name
+                CoffeeCompanyName = coffee.Company.Name,
+                ImageLink = coffee.ImageLink 
+
             };
             
         }

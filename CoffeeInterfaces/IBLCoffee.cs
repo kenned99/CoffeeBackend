@@ -9,8 +9,8 @@ namespace CoffeeInterfaces
     {
  
 
-        public CoffeeInfo InsertCoffee(Coffee coffee);
-        public CoffeeCompanyInfo InsertCompany(CoffeeCompany coffeeCompany);
+        public Coffee InsertCoffee(Coffee coffee);
+        public CoffeeCompany InsertCompany(CoffeeCompany coffeeCompany);
         public User InsertUser(User user);
 
         public List<User> GetUsers();

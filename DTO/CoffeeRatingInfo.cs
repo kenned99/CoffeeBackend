@@ -18,5 +18,6 @@ namespace DTO
         public string CoffeeName { get; set; }
         public string CoffeeCompanyName { get; set; }
         public ServingStyle ServeringStyle { get; set; }
+        public string ImageLink { get; set; }
     }
 }

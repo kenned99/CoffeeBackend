@@ -15,7 +15,7 @@ namespace DTO
         public Guid CoffeeCompanyId { get; set; }
         public string CoffeeCompanyName { get; set; }
         public double AverageRating { get; set; }
-
+        public string ImageLink { get; set; }
 
 
     }

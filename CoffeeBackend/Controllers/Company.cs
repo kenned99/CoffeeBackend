@@ -1,5 +1,6 @@
 ﻿using BusinessLogic;
 using DataAccess;
+using DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,6 @@ namespace CoffeeBackend.Controllers
         [Authorize]
         public IActionResult Post([FromBody] CoffeeCompany company)
         {
-          
             BLCoffee newCoffee = new BLCoffee(context);
             newCoffee.InsertCompany(company);
             return Ok(company.Id);
