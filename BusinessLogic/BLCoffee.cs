@@ -84,6 +84,7 @@ namespace BusinessLogic
 
                 list.Add(coffeeRatingList);
             }
+            list.Reverse();
 
             UserRatingInfo userInfo = new UserRatingInfo
             {

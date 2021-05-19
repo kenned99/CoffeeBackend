@@ -31,12 +31,12 @@ namespace CoffeeBackend.Controllers
 
         [HttpPost]
         [Authorize]
-        public CoffeeCompany Post([FromBody] CoffeeCompany company)
+        public IActionResult Post([FromBody] CoffeeCompany company)
         {
           
             BLCoffee newCoffee = new BLCoffee(context);
             newCoffee.InsertCompany(company);
-            return company;
+            return Ok(company.Id);
 
         }
         [HttpGet]
